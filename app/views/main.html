@@ -1,23 +1,55 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
-
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+<div="container">
+  <h1>Welcome to the GA Camping Store</h1>
+  <br/>
+    <div class="search">
+      <h4>Search: <input ng-model="searchText" type="text"></h4>
+    </div>
+  <br/>
+  <div class="row">
+     <table class="table col-md-12" >
+       <tr>
+         <th>Category</th>
+         <th>Description</th>
+         <th>Price</th>
+         <th>Quantity</th>
+         <th>Total</th>
+         <th>Action</th>
+       </tr>
+       <tr ng-repeat="item in inventory | filter:searchText | orderBy:'category' ">
+         <td>{{ item.category }}</td>
+         <td>{{ item.description }}</td>
+         <td ng-class="{ 'on-sale' : item.onSale }">{{ item.price }}</td>
+         <td><input type="number" min="0" class="qty" ng-model="item.qty"></td>
+         <td>{{ item.qty * item.price | currency }}</td>
+         <td><button class="btn btn-success" ng-click="addItem(item);">Add</td>
+       </tr>
+    </table>
+  </div>
+  <div class="row">
+     <table class="table col-md-9 col-md-offset-3" >
+       <tr>
+         <th>Your Cart</th>
+       </tr>
+       <tr>
+         <th>Description</th>
+         <th>Quantity</th>
+         <th>Item Price</th>
+         <th>Total</th>
+         <th>Action</th>
+       </tr>
+       <tr ng-repeat="item in cart">
+         <td>{{ item.description }}</td>
+         <td>{{ item.qty }}</td> 
+         <td>{{ item.price }}</td>
+         <td>{{ (item.qty * item.price) }}</td>
+         <td><button class="btn btn-danger" ng-click="removeItem(item);">X</td>
+       </tr>
+     </table>
+     <table class="table col-md-9 col-md-offset-3" >
+      <th>Cart Total = {{ grandTotal() | currency }}</th>
+       <tr>
+         <td>
+           <button class="btn btn-danger" ng-click="clearCart()">Empty Cart</button>
+     </table>
+  </div>
 </div>
